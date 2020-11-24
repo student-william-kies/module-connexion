@@ -1,0 +1,87 @@
+/* FONT FACE */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+/* Main */
+
+.main-info-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80vh;
+    background-image: url("../images/main-bg.svg");
+    background-attachment: fixed;
+    color: #fff;
+}
+
+.main-info-section h1{
+    font-size: 58px;
+    text-shadow: 2px 8px 8px black;
+}
+
+.main-info-section p{
+    font-size: 25px;
+    text-shadow: 2px 8px 8px black;
+}
+
+#space-l{
+    width: 15%;
+    margin-left: 73%;
+    margin-top: 10%;
+}
+
+.project{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60vh;
+    background-color: #343a40;
+    color: #fff;
+}
+
+.project h1{
+    margin-top: -5%;
+}
+
+.project p{
+    margin-top: 5%;
+}
+
+.carousel-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    background-image: url("../images/bg-carousel.svg");
+    background-attachment: fixed;
+    color: #fff;
+}
+
+.carousel-section h1{
+    margin-top: -5%;
+}
+
+.carousel-section p{
+    margin-bottom: 5%;
+}
+
+.carousel-inner,
+.carousel-item{
+    height: 50%;
+    border-radius: 100%;
+}
+
+/* Footer */
+
+.page-footer{
+    background-color: #343a40;
+    color: #fff;
+}
