@@ -20,10 +20,10 @@
                     <section class="collapse navbar-collapse" id="leadUIDemoNav-3">
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Admin</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Inscription</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Connexion</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Profil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="php/admin.hp">Admin</a></li>
+                            <li class="nav-item"><a class="nav-link" href="php/inscription.php">Inscription</a></li>
+                            <li class="nav-item"><a class="nav-link" href="php/connexion.php">Connexion</a></li>
+                            <li class="nav-item"><a class="nav-link" href="php/profil.php">Profil</a></li>
                         </ul>
                     </section>
                 </section>
