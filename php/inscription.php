@@ -53,8 +53,9 @@ session_start();
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="../index.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>
-                            <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>
+                            <li class="nav-item"><a class="nav-link" href="sort.php">Tirage au sort</a></li>
                             <li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
+                            <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>
                             <li class="nav-item"><a class="nav-link" href="profil.php">Profil</a></li>
                         </ul>
                     </section>
@@ -96,7 +97,7 @@ session_start();
                                                 <section class="form-group">
                                                     <input type="password" class="form-control" name="confirmPassword" placeholder="Confirmer le mot de passe *" required>
                                                 </section>
-                                                <input type="submit" class="btnRegister" name="new_user"  value="Register">
+                                                <input type="submit" class="btnRegister" name="new_user"  value="Créer">
                                             </section>
                                         </section>
                                     </section>

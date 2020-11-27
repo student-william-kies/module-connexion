@@ -17,14 +17,13 @@ session_start();
         else{
             $check_password = $result[0];
             if (password_verify($user_password, $check_password)) {
-                echo "ok";
-                $check_data = mysqli_query($db, "SELECT login, password FROM utilisateurs WHERE login = '" . mysqli_real_escape_string($db, $user) . "' AND password = '" . mysqli_real_escape_string($db, $check_password) . "'");
-                $info_user = mysqli_fetch_row($check_data);
+                $check_data = mysqli_query($db, "SELECT id, login, password FROM utilisateurs WHERE login = '" . mysqli_real_escape_string($db, $user) . "' AND password = '" . mysqli_real_escape_string($db, $check_password) . "'");
+                $info_user = mysqli_fetch_assoc($check_data);
 
                 if (mysqli_num_rows($check_data)){
-                    $_SESSION['id'] = $info_user;
-                    $_SESSION['login'] = $info_user['0'];
-                    $_SESSION['password'] = $info_user['1'];
+                    $_SESSION['id'] = $info_user['id'];
+                    $_SESSION['login'] = $info_user['login'];
+                    $_SESSION['password'] = $info_user['password'];
 
                     header('location:../index.php');
                 }
@@ -60,8 +59,9 @@ session_start();
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="../index.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>
-                            <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>
+                            <li class="nav-item"><a class="nav-link" href="sort.php">Tirage au sort</a></li>
                             <li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
+                            <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>
                             <li class="nav-item"><a class="nav-link" href="profil.php">Profil</a></li>
                         </ul>
                     </section>

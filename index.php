@@ -37,6 +37,7 @@ session_start();
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="php/admin.hp">Admin</a></li>
+                            <li class="nav-item"><a class="nav-link" href="php/sort.php">Tirage au sort</a></li>
                             <?php
                             /* Condition if qui permet si une session est active de faire disparaitre les pages connexion et inscription */
                             if (!isset($_SESSION['id'])){
@@ -71,7 +72,7 @@ session_start();
                 <br />
 
                 <p>Vous souhaitez vivre une aventure unique en son genre et découvrir la vie spatial de nos astronautes et voir la planète rouge ? avec PROJECT MARS, tout est possible !
-                    Inscrivez-vous sur le notre site et vous serait automatiquement participant du concours visant à gagnez 2 ans sur la fameuse planète Mars !</p>
+                    Inscrivez-vous sur notre site et vous serait automatiquement participant du concours visant à gagnez 2 ans sur la fameuse planète Mars !</p>
             </section>
         </section>
 
