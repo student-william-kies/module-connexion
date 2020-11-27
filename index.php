@@ -1,3 +1,15 @@
+<?php
+/* Démarrage de la session */
+session_start();
+
+    /* Condition if qui permet si le formulaire de logout est défini, de pouvoir se déconnecter */
+    if (isset($_POST['logout'])){
+
+        session_destroy();
+        header('location:php/connexion.php');
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -11,6 +23,10 @@
     <body>
         <!-- Header de la page -->
         <header>
+            <section class="text-center container-fluid" style="background-color: #343a40; color: #fff;">
+                <!-- Condition if qui permet si la session est défini, d'afficher bonjour et le log de l'utilisateur && un bouton déconnexion  -->
+                <?php if (isset($_SESSION['id'])){ echo 'Bonjour <i class="fas fa-user-circle"></i> ' . $_SESSION['login'] . '<br /><form method="POST" action="index.php"><input type="submit" name="logout" value="Déconnexion" class="btn btn-danger"></form>';} ?>
+            </section>
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <section class="container">
@@ -21,8 +37,13 @@
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="php/admin.hp">Admin</a></li>
-                            <li class="nav-item"><a class="nav-link" href="php/inscription.php">Inscription</a></li>
-                            <li class="nav-item"><a class="nav-link" href="php/connexion.php">Connexion</a></li>
+                            <?php
+                            /* Condition if qui permet si une session est active de faire disparaitre les pages connexion et inscription */
+                            if (!isset($_SESSION['id'])){
+                                echo '<li class="nav-item"><a class="nav-link" href="php/connexion.php">Connexion</a></li>';
+                                echo '<li class="nav-item"><a class="nav-link" href="php/inscription.php">Inscription</a></li>';
+                            }
+                            ?>
                             <li class="nav-item"><a class="nav-link" href="php/profil.php">Profil</a></li>
                         </ul>
                     </section>

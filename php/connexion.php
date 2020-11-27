@@ -5,24 +5,35 @@ session_start();
     if (isset($_POST['signin'])){
         $user = htmlspecialchars(trim($_POST['login']));
         $user_password = htmlspecialchars(trim($_POST['password']));
-        $hashed_logpwd = password_hash($user_password, PASSWORD_BCRYPT);
+        $error_login = 'Veuillez réessayer ! Utilisateur introuvable (Login/mot de passe incorrect).';
 
-        $check_password = password_verify($user_password, $hashed_logpwd);
-        $check_data = mysqli_query($db, "SELECT * FROM utilisateurs WHERE login = '" . $user . "' AND password = '" . $check_password . "'");
 
-        $info_user = mysqli_fetch_array($check_data);
+        $get_password = mysqli_query($db, "SELECT password FROM utilisateurs WHERE login = '" . mysqli_real_escape_string($db, $user) . "'");
+        $result = mysqli_fetch_row($get_password);
 
-        if(mysqli_num_rows($check_data)){
-            $_SESSION['login'] = $info_user['1'];
-            $_SESSION['password'] = $info_user['4'];
-            $_SESSION['id'] = $info_user['0'];
-            /*header('Location: ../index.php');*/
+        if (!$result){
+            echo '<section class="alert alert-danger text-center" role="alert">' . $error_login . '</section>'; /* Utilisateur incorrect */
         }
         else{
-            echo '<section class="alert alert-danger text-center" role="alert">Erreur</section>';
+            $check_password = $result[0];
+            if (password_verify($user_password, $check_password)) {
+                echo "ok";
+                $check_data = mysqli_query($db, "SELECT login, password FROM utilisateurs WHERE login = '" . mysqli_real_escape_string($db, $user) . "' AND password = '" . mysqli_real_escape_string($db, $check_password) . "'");
+                $info_user = mysqli_fetch_row($check_data);
+
+                if (mysqli_num_rows($check_data)){
+                    $_SESSION['id'] = $info_user;
+                    $_SESSION['login'] = $info_user['0'];
+                    $_SESSION['password'] = $info_user['1'];
+
+                    header('location:../index.php');
+                }
+            }
+            else{
+                echo '<section class="alert alert-danger text-center" role="alert">' . $error_login . '</section>';/* Mdp incorrect */
+            }
         }
     }
-
 ?>
 
 <!DOCTYPE html>

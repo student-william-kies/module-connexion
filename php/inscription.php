@@ -1,5 +1,6 @@
 <?php
 $db = mysqli_connect('localhost', 'root', '', 'moduleconnexion');
+session_start();
 
     if (isset($_POST['new_user'])){
         $login = htmlspecialchars(trim($_POST['login']));
@@ -72,7 +73,7 @@ $db = mysqli_connect('localhost', 'root', '', 'moduleconnexion');
                                 <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                                 <h3>Bonjour!</h3>
                                 <p>Créer votre compte en 30 secondes chrono, et tenter de remporté l'offre de lancement !</p>
-                                <button type="submit" name="login"><a href="connexion.php" id="btn-login">Login</a></button><br />
+                                <button type="submit" name="login"><a href="connexion.php" id="btn-login">Se connecter</a></button><br />
                             </section>
                             <section class="col-md-9 register-right">
                                 <section class="tab-content" id="myTabContent">
