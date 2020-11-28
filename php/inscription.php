@@ -1,7 +1,10 @@
 <?php
+/* Connexion a la base de données */
 $db = mysqli_connect('localhost', 'root', '', 'moduleconnexion');
+/* Démarrage de la session */
 session_start();
 
+    /* Condition if qui permet de créer un utilisateur et de l'enregister en base de données */
     if (isset($_POST['new_user'])){
         $login = htmlspecialchars(trim($_POST['login']));
         $prenom = htmlspecialchars(trim($_POST['prenom']));
@@ -22,6 +25,7 @@ session_start();
             echo '<section class="alert alert-danger text-center" role="alert"><b>Erreur : valeurs incorrectes ! Veuillez réessayer.</b></section>';
         }
     }
+    /* Permet d'incrémenter l'ID a 1 si la base de données est vide */
     $control_id = mysqli_num_rows(mysqli_query($db,"SELECT * FROM utilisateurs"));
 
     if($control_id == 0){
@@ -52,7 +56,6 @@ session_start();
                     <section class="collapse navbar-collapse" id="leadUIDemoNav-3">
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="../index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>
                             <li class="nav-item"><a class="nav-link" href="sort.php">Tirage au sort</a></li>
                             <li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
                             <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>
@@ -74,7 +77,6 @@ session_start();
                                 <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                                 <h3>Bonjour!</h3>
                                 <p>Créer votre compte en 30 secondes chrono, et tenter de remporté l'offre de lancement !</p>
-                                <button type="submit" name="login"><a href="connexion.php" id="btn-login">Se connecter</a></button><br />
                             </section>
                             <section class="col-md-9 register-right">
                                 <section class="tab-content" id="myTabContent">

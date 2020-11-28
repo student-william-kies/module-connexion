@@ -1,12 +1,17 @@
 <?php
+/* Connexion a la base de données */
 $db = mysqli_connect('localhost', 'root', '', 'moduleconnexion');
+/* Démarrage de la session */
 session_start();
 
+    /* Condition if qui permet de se deconnecter */
     if (isset($_POST['logout'])){
         session_destroy();
         header('location:connexion.php');
+        exit();
     }
 
+    /* Condition if qui permet de modifier son profil */
     if (isset($_SESSION['id'])){
         if (isset($_POST['modify'])){
             if (isset($_POST['newLogin']) && isset($_POST['newPrenom']) && isset($_POST['newNom']) && $_POST['newPassword'] === $_POST['newConfirmPassword']){
@@ -21,12 +26,12 @@ session_start();
 
                 $update_user = mysqli_query($db, "UPDATE utilisateurs SET login = '$new_login', prenom = '$new_prenom', nom = '$new_nom', password = '$update_hashed_password ' WHERE id = '$session_id'");
 
-                $_SESSION['login'] = $new_login;
-                $_SESSION['prenom'] = $new_prenom;
-                $_SESSION['nom'] = $new_nom;
-                $_SESSION['password'] = $update_hashed_password;
-
                 if ($update_user){
+                    $_SESSION['login'] = $new_login;
+                    $_SESSION['prenom'] = $new_prenom;
+                    $_SESSION['nom'] = $new_nom;
+                    $_SESSION['password'] = $update_hashed_password;
+
                     echo '<section class="alert alert-success text-center" role="alert">Modification effectuée !</section>';
                 }
                 else{
@@ -65,14 +70,21 @@ session_start();
                     <section class="collapse navbar-collapse" id="leadUIDemoNav-3">
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="../index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="admin.hp">Admin</a></li>
+                            <?php
+                                /* Affichage de la page admin seulement pour l'admin */
+                                if (isset($_SESSION['id'])){
+                                        if ($_SESSION['id'] == 1){
+                                            echo '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
+                                        }
+                                }
+                            ?>
                             <li class="nav-item"><a class="nav-link" href="sort.php">Tirage au sort</a></li>
                             <?php
-                            /* Condition if qui permet si une session est active de faire disparaitre les pages connexion et inscription */
-                            if (!isset($_SESSION['id'])){
-                                echo '<li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>';
-                                echo '<li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>';
-                            }
+                                /* Condition if qui permet si une session est active de faire disparaitre les pages connexion et inscription */
+                                if (!isset($_SESSION['id'])){
+                                    echo '<li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>';
+                                    echo '<li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>';
+                                }
                             ?>
                             <li class="nav-item"><a class="nav-link" href="profil.php">Profil</a></li>
                         </ul>
@@ -85,60 +97,68 @@ session_start();
         <main>
             <article>
                 <?php
+                    /* Condition if qui permet si la session est active d'afficher le formulaire de modif ou non */
+                    if (isset($_SESSION['id'])){
+                        $session_id = $_SESSION['id'];
+                        $get_info = mysqli_query($db, "SELECT login, prenom, nom FROM utilisateurs WHERE id = $session_id");
 
-                /* Condition if qui permet si la session est active d'afficher le formulaire de modif ou non */
-                if (isset($_SESSION['id'])){
-                    echo '
-                    <form action="profil.php" method="post">
-                    <section class="container modify">
-                        <section class="row">
-                            <section class="col-md-3 modify-left">
-                                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-                                <h3>Voici votre vitrine !</h3>
-                                <p>Modifier vos informations en tout simplicité !</p>
-                            </section>
-                            <section class="col-md-9 modify-right">
-                                <section class="tab-content" id="myTabContent">
-                                    <section class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                        <h3 class="modify-heading">Gérer votre compte</h3>
-                                        <section class="row modify-form">
-                                            <section class="col-md-6">
-                                                <section class="form-group">
-                                                    <input type="text" class="form-control" name="newLogin" placeholder="Login *" required>
+                        $row = mysqli_fetch_assoc($get_info);
+
+                        $inputLogin = $row['login'];
+                        $inputPrenom = $row['prenom'];
+                        $inputNom = $row['nom'];
+
+                        echo '
+                        <form action="profil.php" method="post">
+                        <section class="container modify">
+                            <section class="row">
+                                <section class="col-md-3 modify-left">
+                                    <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+                                    <h3>Voici votre vitrine !</h3>
+                                    <p>Modifier vos informations en tout simplicité !</p>
+                                </section>
+                                <section class="col-md-9 modify-right">
+                                    <section class="tab-content" id="myTabContent">
+                                        <section class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <h3 class="modify-heading">Gérer votre compte</h3>
+                                            <section class="row modify-form">
+                                                <section class="col-md-6">
+                                                    <section class="form-group">
+                                                        <input type="text" class="form-control" name="newLogin" placeholder="Login *" value='."$inputLogin".' required>
+                                                    </section>
+                                                    <section class="form-group">
+                                                        <input type="text" class="form-control" name="newPrenom" placeholder="Prénom *" value="'."$inputPrenom".'" required>
+                                                    </section>
+                                                    <section class="form-group">
+                                                        <input type="text" class="form-control" name="newNom" placeholder="Nom *" value="'."$inputNom".'" required>
+                                                    </section>
+                                                    <section class="form-group">
+                                                        <input type="password" class="form-control" name="newPassword" placeholder="Mot de passe *" required>
+                                                    </section>
+                                                    <section class="form-group">
+                                                        <input type="password" class="form-control" name="newConfirmPassword" placeholder="Confirmer le mot de passe *" required>
+                                                    </section>
+                                                    <input type="submit" class="btnModify" name="modify"  value="Modifier">
+                                                    <p>(<i>Si vous souhaitez conserver vos paramètres, renseigner les champs requis par vos données actuelles</i>)</p>
                                                 </section>
-                                                <section class="form-group">
-                                                    <input type="text" class="form-control" name="newPrenom" placeholder="Prénom *" required>
-                                                </section>
-                                                <section class="form-group">
-                                                    <input type="text" class="form-control" name="newNom" placeholder="Nom *" required>
-                                                </section>
-                                                <section class="form-group">
-                                                    <input type="password" class="form-control" name="newPassword" placeholder="Mot de passe *" required>
-                                                </section>
-                                                <section class="form-group">
-                                                    <input type="password" class="form-control" name="newConfirmPassword" placeholder="Confirmer le mot de passe *" required>
-                                                </section>
-                                                <input type="submit" class="btnModify" name="modify"  value="Modifier">
-                                                <p>(<i>Si vous souhaitez conserver vos paramètres, renseigner les champs requis par vos données actuelles</i>)</p>
                                             </section>
                                         </section>
                                     </section>
                                 </section>
                             </section>
                         </section>
-                    </section>
-                </form>';
-                }
-                else{
-                    echo '
-                                <section class="jumbotron jumbotron-fluid text-center">
-                                    <section class="container">
-                                    <h1 class="display-4">Profil</h1>
-                                    <p class="lead">Veuillez vous connecter ou vous inscrire afin d\'accéder à votre profil !</p>
+                    </form>';
+                    }
+                    else{
+                        echo '
+                                    <section class="jumbotron jumbotron-fluid text-center">
+                                        <section class="container">
+                                        <h1 class="display-4">Profil</h1>
+                                        <p class="lead">Veuillez vous connecter ou vous inscrire afin d\'accéder à votre profil !</p>
+                                        </section>
                                     </section>
-                                </section>
-                                <img src="" alt="ErrorLog" style="">';
-                }
+                                    <img src="../images/errorLog.svg" alt="ErrorLog" style="width: 35%; margin-left: 33%;">';
+                    }
                 ?>
             </article>
         </main>

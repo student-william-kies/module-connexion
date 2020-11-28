@@ -4,24 +4,25 @@ $db = mysqli_connect('localhost', 'root', '', 'moduleconnexion');
 /* Démarrage de la session */
 session_start();
 
-    /* Condition if qui permet si le formulaire de logout est défini, de pouvoir se déconnecter */
+    /* Condition if qui permet de se deconnecter */
     if (isset($_POST['logout'])){
-
         session_destroy();
         header('location:connexion.php');
         exit();
     }
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset=UTF-8">
-        <title>Project 2077| Tirage au sort</title>
+        <title>Project 2077 | Admins</title>
         <!-- CSS -->
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/sort.css">
+        <link rel="stylesheet" href="../css/admin.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     </head>
     <body>
@@ -29,7 +30,7 @@ session_start();
         <header>
             <section class="text-center container-fluid" style="background-color: #343a40; color: #fff;">
                 <!-- Condition if qui permet si la session est défini, d'afficher bonjour et le log de l'utilisateur && un bouton déconnexion  -->
-                <?php if (isset($_SESSION['id'])){ echo 'Bonjour <i class="fas fa-user-circle"></i> ' . $_SESSION['login'] . '<br /><form method="POST" action="sort.php"><input type="submit" name="logout" value="Déconnexion" class="btn btn-danger"></form>';} ?>
+                <?php if (isset($_SESSION['id'])){ echo 'Bonjour <i class="fas fa-user-circle"></i> ' . $_SESSION['login'] . '<br /><form method="POST" action="admin.php"><input type="submit" name="logout" value="Déconnexion" class="btn btn-danger"></form>';} ?>
             </section>
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -41,7 +42,7 @@ session_start();
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="../index.php">Home</a></li>
                             <?php
-                                /* Condition if qui permet si seulement admins est connecter d'afficher sa page */
+                                /* Affiche la page admin seulement pour l'utilisateur admin */
                                 if (isset($_SESSION['id'])){
                                     if ($_SESSION['id'] == 1){
                                         echo '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
@@ -66,22 +67,30 @@ session_start();
         <!-- Main de la page -->
         <main>
             <article>
-                <section class="jumbotron jumbotron-fluid text-center">
-                    <section class="container">
-                        <h1 class="display-4">Tirage au sort</h1>
-                        <p class="lead">Le tirage n'a pas encore eu lieu ! Patientez encore quelques temps et vous aurez peut etre une chance de remporté 2 ans de vie Marsienne !</p>
+                <section class="container-fluid text-center">
+                    <h1>Admins</h1>
+                    <p>Informations base de données</p>
+                    <section class="container text-center" style="background-color: #f0f0f0;">
+                        <?php
+                            /* Affiche l'intégralité de la base de données */
+                            $check_db = mysqli_query($db,"SELECT * FROM utilisateurs");
+
+                            while($db_list = mysqli_fetch_assoc($check_db)){
+                                echo '<section class="container table-style"><table><thead><th>Utilisateur ' . $db_list['id'] . ' :</th></thead>';
+                                echo '<tbody><tr><td>ID : ' . $db_list['id'] . '</td></tr><tr><td>Login : ' . $db_list['login'] . '</td></tr><tr><td>Prénom : ' . $db_list['prenom'] . '</td></tr><tr><td>Nom : ' . $db_list['nom'] . '</td></tr><tr><td>Password : ' . $db_list['password'] . '</td></tr></tbody></table></section>';
+                            }
+                        ?>
                     </section>
                 </section>
-                <img src="../images/mars-trip.svg" alt="Voyages vers Mars" style="width: 30%; margin-left: 34%;">;
             </article>
         </main>
 
-        <!-- Footer de la page -->
-        <footer class="page-footer font-small">
-            <section class="footer-copyright text-center py-3">© 2020 Copyright
-                <a href="https://www.instagram.com/william_ksii/" target="_blank"><i class="fab fa-instagram"></i> WilliamKies</a>
-            </section>
-        </footer>
+    <!-- Footer de la page -->
+    <footer class="page-footer font-small">
+        <section class="footer-copyright text-center py-3">© 2020 Copyright
+            <a href="https://www.instagram.com/william_ksii/" target="_blank"><i class="fab fa-instagram"></i> WilliamKies</a>
+        </section>
+    </footer>
 
         <!-- JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -1,7 +1,10 @@
 <?php
+/* Connexion a la base de données */
 $db = mysqli_connect('localhost', 'root', '', 'moduleconnexion');
+/* Démarrage de la session */
 session_start();
 
+    /* Condition if qui permet de se connecter */
     if (isset($_POST['signin'])){
         $user = htmlspecialchars(trim($_POST['login']));
         $user_password = htmlspecialchars(trim($_POST['password']));
@@ -26,10 +29,11 @@ session_start();
                     $_SESSION['password'] = $info_user['password'];
 
                     header('location:../index.php');
+                    exit();
                 }
             }
             else{
-                echo '<section class="alert alert-danger text-center" role="alert">' . $error_login . '</section>';/* Mdp incorrect */
+                echo '<section class="alert alert-danger text-center" role="alert">' . $error_login . '</section>';
             }
         }
     }
@@ -58,7 +62,6 @@ session_start();
                     <section class="collapse navbar-collapse" id="leadUIDemoNav-3">
                         <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="../index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>
                             <li class="nav-item"><a class="nav-link" href="sort.php">Tirage au sort</a></li>
                             <li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
                             <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>
@@ -79,8 +82,7 @@ session_start();
                             <section class="col-md-3 log-left">
                                 <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                                 <h3>Bonjour!</h3>
-                                <p>En vous connectant, vous aurez accès au résultat du tirage au sort et savoir si vous etes l'heureux(se) élus(es) !</p>
-                                <button type="submit" name="register"><a href="inscription.php" id="btn-register">S'inscrire</a></button><br />
+                                <p>En vous connectant, vous aurez peut etre la chance de gagné l'offre de lancement et de savoir si vous etes l'heureux(se) élus(es) !</p>
                             </section>
                             <section class="col-md-9 log-right">
                                 <section class="tab-content" id="myTabContent">
